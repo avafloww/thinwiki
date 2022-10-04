@@ -20,7 +20,7 @@ jobs:
           password: ${{ github.token }}
       - name: Get version from package.json
         id: extractver
-        run: echo "::set-output name=version::$(jq '.version' package.json | sed 's/"//')"
+        run: echo "::set-output name=version::$(jq '.version' package.json | sed 's/"//g')"
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
