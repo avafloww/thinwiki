@@ -10,6 +10,7 @@ export class WebServer {
     const port = parseInt(process.env.PORT ?? '3000');
 
     log('registering routes');
+    this.fastify.register(require('@fastify/cors'), { origin: '*' });
     for (const route of routes) {
       this.fastify.register(route);
     }

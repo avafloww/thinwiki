@@ -10,7 +10,7 @@ export async function file(fastify: FastifyInstance) {
       url = url.substring(1);
     }
 
-    const page = ThinWiki.storage.get(url);
+    const page = await ThinWiki.storage.get(url);
     if (!page) {
       reply.status(404);
       return 'not found';

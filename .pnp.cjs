@@ -33,6 +33,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
+            ["@fastify/cors", "npm:8.1.0"],\
             ["@types/follow-redirects", "npm:1.14.1"],\
             ["@types/node", "npm:18.8.1"],\
             ["@types/yauzl", "npm:2.10.0"],\
@@ -58,6 +59,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ajv", "npm:8.11.0"],\
             ["ajv-formats", "virtual:2ffc2c24a5996ccc26158080dbd7f59924dac9c9eb8a062b64a2e3965f5134eb3266f9fa0f5bf6fee1e64a4951b120c4ba784f0fec69f6a67af6d3c41d408363#npm:2.1.1"],\
             ["fast-uri", "npm:2.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@fastify/cors", [\
+        ["npm:8.1.0", {\
+          "packageLocation": "./.yarn/cache/@fastify-cors-npm-8.1.0-606a98125f-7fb48eb743.zip/node_modules/@fastify/cors/",\
+          "packageDependencies": [\
+            ["@fastify/cors", "npm:8.1.0"],\
+            ["fastify-plugin", "npm:4.2.1"],\
+            ["mnemonist", "npm:0.39.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -447,6 +459,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["fastify-plugin", [\
+        ["npm:4.2.1", {\
+          "packageLocation": "./.yarn/cache/fastify-plugin-npm-4.2.1-4237abb051-01eaa6644f.zip/node_modules/fastify-plugin/",\
+          "packageDependencies": [\
+            ["fastify-plugin", "npm:4.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["fastq", [\
         ["npm:1.13.0", {\
           "packageLocation": "./.yarn/cache/fastq-npm-1.13.0-a45963881c-32cf15c29a.zip/node_modules/fastq/",\
@@ -655,11 +676,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["mnemonist", [\
+        ["npm:0.39.2", {\
+          "packageLocation": "./.yarn/cache/mnemonist-npm-0.39.2-03f0b84c2a-77075ddf30.zip/node_modules/mnemonist/",\
+          "packageDependencies": [\
+            ["mnemonist", "npm:0.39.2"],\
+            ["obliterator", "npm:2.0.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ms", [\
         ["npm:2.1.2", {\
           "packageLocation": "./.yarn/cache/ms-npm-2.1.2-ec0c1512ff-673cdb2c31.zip/node_modules/ms/",\
           "packageDependencies": [\
             ["ms", "npm:2.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["obliterator", [\
+        ["npm:2.0.4", {\
+          "packageLocation": "./.yarn/cache/obliterator-npm-2.0.4-b21b355294-f28ad35b6d.zip/node_modules/obliterator/",\
+          "packageDependencies": [\
+            ["obliterator", "npm:2.0.4"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -965,6 +1005,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["thinwiki", "workspace:."],\
+            ["@fastify/cors", "npm:8.1.0"],\
             ["@types/follow-redirects", "npm:1.14.1"],\
             ["@types/node", "npm:18.8.1"],\
             ["@types/yauzl", "npm:2.10.0"],\
