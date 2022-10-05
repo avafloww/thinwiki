@@ -7,6 +7,7 @@ export class WebServer {
   private fastify = Fastify();
 
   async bootstrap() {
+    const host = process.env.HOST ?? '127.0.0.1';
     const port = parseInt(process.env.PORT ?? '3000');
 
     log('registering routes');
@@ -17,7 +18,7 @@ export class WebServer {
 
     log(`running on port ${port}`);
     try {
-      await this.fastify.listen({ port });
+      await this.fastify.listen({ host, port });
     } catch (err) {
       log(err);
       console.error(err);
