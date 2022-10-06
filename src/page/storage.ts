@@ -105,26 +105,92 @@ export class Storage {
   }
 
   private async processFile(path: string, rawPage: string) {
-    const rawMatter = matter(rawPage);
-    const meta = rawMatter.data as PageMeta;
+    // remove any .md from the end of the path
+    if (path.endsWith('.md')) {
+      path = path.substring(0, path.length - 3);
+    }
 
-    this.cache.set(path, {
+    const rawMatter = matter(rawPage);
+    const meta = Object.assign(rawMatter.data, {
+      canonicalName: path
+    }) as PageMeta;
+
+    const page: Page = {
       meta,
       text: rawMatter.content,
-    });
+    };
+
+    // if the parent exists, add the new child to it
+    if (path.includes('/')) {
+      const splitPath = path.split('/');
+      const hierarchy = splitPath.slice(0, splitPath[splitPath.length - 1] === 'index' ? -2 : -1);
+      hierarchy.push('index');
+      const parentPath = hierarchy.join('/');
+      const parent = this.cache.get(parentPath);
+      if (parent) {
+        if (!parent.children) {
+          parent.children = [];
+        }
+
+        parent.children.push(page.meta);
+        this.cache.set(parentPath, parent);
+      }
+    }
+
+    // if this new page is the parent of already existing children, add them to the new page as children
+    // iterate through the cache and find all paths that start with this path
+    for (const [key, value] of this.cache) {
+      if (key.startsWith(`${path}/`)) {
+        if (!page.children) {
+          page.children = [];
+        }
+
+        page.children.push(value.meta);
+      }
+    }
+
+    // finally, set the page free into the cache
+    this.cache.set(path, page);
   }
 
   async get(pagePath: string): Promise<Page | null> {
-    if (!pagePath.endsWith('.md')) {
-      pagePath += '.md';
+    if (pagePath.endsWith('.md')) {
+      pagePath = pagePath.substring(0, pagePath.length - 3);
     }
 
-    const page = this.cache.get(pagePath);
+    if (pagePath === '') {
+      pagePath = 'index';
+    }
+
+    let page = this.cache.get(pagePath);
+    if (!page) {
+      page = this.cache.get(pagePath + (pagePath.endsWith('/') ? '' : '/') + 'index');
+    }
+
     log(`get: ${pagePath} = ${page ? 'found' : 'not found'}`);
     return page ?? null;
   }
 
-  async search(query: string): Promise<Page[]> {
-    return [];
+  async search(query: string): Promise<PageMeta[]> {
+    if (query.length < 3) {
+      const e = new Error('search query must be at least 3 characters long');
+      // @ts-ignore - this is criminal but I'm feeling lazy
+      e.statusCode = 400;
+      throw e;
+    }
+
+    const results: PageMeta[] = [];
+
+    for (const [key, value] of this.cache) {
+      if (key.includes(query)
+        || value.meta.name?.includes(query)
+        || value.meta.description?.includes(query)
+        || value.text.includes(query)) {
+        results.push(value.meta);
+      }
+    }
+
+    log(`search: ${query} = ${results.length} results`);
+    return results;
   }
 }
